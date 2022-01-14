@@ -43,9 +43,6 @@
 #ifdef ENABLE_MINDRT
 #include "src/mindrt_executor.h"
 #endif
-#if SUPPORT_NPU
-#include "src/delegate/npu/npu_delegate.h"
-#endif
 #if GPU_OPENCL
 #include "src/runtime/kernel/opencl/opencl_subgraph.h"
 #endif
@@ -841,17 +838,6 @@ int LiteSession::CreateTensorRTDelegate() {
 }
 
 int LiteSession::CreateNPUDelegate() {
-#if SUPPORT_NPU
-  delegate_ = std::make_shared<NPUDelegate>(context_->GetNpuInfo());
-  if (delegate_ == nullptr) {
-    MS_LOG(ERROR) << "New delegate_ failed";
-    return RET_ERROR;
-  }
-  delegate_device_type_ = DT_NPU;
-  this->context_->delegate = delegate_;
-#endif
-  return RET_OK;
-}
 
 int LiteSession::DelegateInit() {
 #ifndef DELEGATE_CLIP

@@ -25,8 +25,7 @@ int ActivationNPUOp::IsSupport(const schema::Primitive *primitive, const std::ve
     return RET_ERROR;
   }
   act_type_ = act_prim->activation_type();
-  if (act_type_ != schema::ActivationType_RELU && act_type_ != schema::ActivationType_RELU6 &&
-      act_type_ != schema::ActivationType_SIGMOID && act_type_ != schema::ActivationType_TANH &&
+  if (act_type_ != schema::ActivationType_SIGMOID && act_type_ != schema::ActivationType_TANH &&
       act_type_ != schema::ActivationType_HSIGMOID && act_type_ != schema::ActivationType_LEAKY_RELU &&
       act_type_ != schema::ActivationType_SWISH && act_type_ != schema::ActivationType_ELU) {
     MS_LOG(WARNING) << "Unsupported activation type for activation op " << name_ << "when running npu";
