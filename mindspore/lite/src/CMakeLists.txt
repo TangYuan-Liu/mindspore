@@ -83,11 +83,6 @@ set(API_TRAIN_SRC
         ${CXX_API_TRAIN_SRCS}
         )
 
-if(SUPPORT_NPU)
-    include_directories(${DDK_PATH})
-    include_directories(${DDK_INCLUDE_PATH})
-endif()
-
 set(LITE_SRC
         ${API_SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/common/context_util.cc
@@ -376,11 +371,6 @@ elseif(MSLITE_GPU_BACKEND STREQUAL cuda)
     target_link_libraries(mindspore-lite_static cuda_kernel_mid)
 endif()
 
-if(SUPPORT_NPU)
-    add_subdirectory(delegate/npu)
-    target_link_libraries(mindspore-lite npu_kernel_mid)
-    target_link_libraries(mindspore-lite_static npu_kernel_mid)
-endif()
 if(PLATFORM_ARM32 OR PLATFORM_ARM64 AND NOT TARGET_HIMIX
         AND NOT TARGET_MIX210 AND NOT TARGET_OHOS_LITE AND NOT MACHINE_LINUX_ARM64)
     target_link_libraries(mindspore-lite log)

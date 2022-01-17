@@ -183,18 +183,6 @@ else()
 endif()
 install(DIRECTORY ${flatbuffers_INC}/ DESTINATION ${RUNTIME_INC_DIR}/third_party COMPONENT ${RUNTIME_COMPONENT_NAME})
 if(PLATFORM_ARM64)
-    if(SUPPORT_NPU)
-        install(FILES ${DDK_LIB_PATH}/libhiai.so DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib
-                COMPONENT ${RUNTIME_COMPONENT_NAME})
-        install(FILES ${DDK_LIB_PATH}/libhiai_ir.so DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib
-                COMPONENT ${RUNTIME_COMPONENT_NAME})
-        install(FILES ${DDK_LIB_PATH}/libhiai_ir_build.so DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib
-                COMPONENT ${RUNTIME_COMPONENT_NAME})
-        if(EXISTS "${DDK_LIB_PATH}/libhiai_hcl_model_runtime.so")
-            install(FILES ${DDK_LIB_PATH}/libhiai_hcl_model_runtime.so
-                    DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib COMPONENT ${RUNTIME_COMPONENT_NAME})
-        endif()
-    endif()
     install(DIRECTORY ${TOP_DIR}/mindspore/lite/include/registry/ DESTINATION ${RUNTIME_INC_DIR}/registry
             COMPONENT ${RUNTIME_COMPONENT_NAME} FILES_MATCHING PATTERN "register_kernel_interface.h"
             PATTERN "register_kernel.h")
@@ -274,32 +262,8 @@ if(PLATFORM_ARM64)
         install(DIRECTORY ${TOP_DIR}/mindspore/lite/build/minddata/ DESTINATION ${TEST_CASE_DIR}
                 COMPONENT ${RUNTIME_COMPONENT_NAME} FILES_MATCHING PATTERN "*.so")
         install(FILES ${JPEGTURBO_LIB_LIST} DESTINATION ${TEST_CASE_DIR})
-        if(SUPPORT_NPU)
-            install(FILES ${DDK_LIB_PATH}/libhiai.so DESTINATION ${TEST_CASE_DIR}
-                    COMPONENT ${RUNTIME_COMPONENT_NAME})
-            install(FILES ${DDK_LIB_PATH}/libhiai_ir.so DESTINATION ${TEST_CASE_DIR}
-                    COMPONENT ${RUNTIME_COMPONENT_NAME})
-            install(FILES ${DDK_LIB_PATH}/libhiai_ir_build.so DESTINATION ${TEST_CASE_DIR}
-                    COMPONENT ${RUNTIME_COMPONENT_NAME})
-            if(EXISTS "${DDK_LIB_PATH}/libhiai_hcl_model_runtime.so")
-                install(FILES ${DDK_LIB_PATH}/libhiai_hcl_model_runtime.so
-                        DESTINATION ${TEST_CASE_DIR} COMPONENT ${RUNTIME_COMPONENT_NAME})
-            endif()
-        endif()
     endif()
 elseif(PLATFORM_ARM32)
-    if(SUPPORT_NPU)
-        install(FILES ${DDK_LIB_PATH}/libhiai.so DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib
-                COMPONENT ${RUNTIME_COMPONENT_NAME})
-        install(FILES ${DDK_LIB_PATH}/libhiai_ir.so DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib
-                COMPONENT ${RUNTIME_COMPONENT_NAME})
-        install(FILES ${DDK_LIB_PATH}/libhiai_ir_build.so DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib
-                COMPONENT ${RUNTIME_COMPONENT_NAME})
-        if(EXISTS "${DDK_LIB_PATH}/libhiai_hcl_model_runtime.so")
-            install(FILES ${DDK_LIB_PATH}/libhiai_hcl_model_runtime.so
-                    DESTINATION ${RUNTIME_DIR}/third_party/hiai_ddk/lib COMPONENT ${RUNTIME_COMPONENT_NAME})
-        endif()
-    endif()
     install(DIRECTORY ${TOP_DIR}/mindspore/lite/include/registry/ DESTINATION ${RUNTIME_INC_DIR}/registry
             COMPONENT ${RUNTIME_COMPONENT_NAME} FILES_MATCHING PATTERN "register_kernel_interface.h"
             PATTERN "register_kernel.h")

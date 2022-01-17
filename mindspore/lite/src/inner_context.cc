@@ -21,9 +21,6 @@
 #ifdef ENABLE_MINDRT
 #include "thread/actor_threadpool.h"
 #endif
-#ifdef SUPPORT_NPU
-#include "include/HiAiModelManagerType.h"
-#endif
 #ifdef GPU_OPENCL
 #include "src/runtime/gpu/opencl/opencl_runtime.h"
 #endif
@@ -140,22 +137,6 @@ int InnerContext::Init() {
     this->allocator = mindspore::Allocator::Create();
     CHECK_NULL_RETURN(this->allocator);
   }
-  if (IsNpuEnabled()) {
-    MS_LOG(DEBUG) << "NPU enabled.";
-#ifdef SUPPORT_NPU
-    for (auto &device_ctx : this->device_list_) {
-      if (device_ctx.device_type_ == DT_NPU &&
-          device_ctx.device_info_.npu_device_info_.frequency_ != hiai::AiModelDescription_Frequency_LOW &&
-          device_ctx.device_info_.npu_device_info_.frequency_ != hiai::AiModelDescription_Frequency_MEDIUM &&
-          device_ctx.device_info_.npu_device_info_.frequency_ != hiai::AiModelDescription_Frequency_HIGH &&
-          device_ctx.device_info_.npu_device_info_.frequency_ != hiai::AiModelDescription_Frequency_EXTREME) {
-        MS_LOG(WARNING) << "NPU frequency set to 3, original value "
-                        << device_ctx.device_info_.npu_device_info_.frequency_;
-        device_ctx.device_info_.npu_device_info_.frequency_ = hiai::AiModelDescription_Frequency_HIGH;
-      }
-    }
-#endif
-  }
   if (IsGpuEnabled()) {
     MS_LOG(DEBUG) << "GPU enabled.";
   }
@@ -195,12 +176,6 @@ int InnerContext::IsValid() const {
 #ifndef SUPPORT_GPU
   if (IsUserSetGpu()) {
     MS_LOG(ERROR) << "GPU is not supported.";
-    return RET_NOT_SUPPORT;
-  }
-#endif
-#ifndef SUPPORT_NPU
-  if (IsUserSetNpu()) {
-    MS_LOG(ERROR) << "NPU is not supported.";
     return RET_NOT_SUPPORT;
   }
 #endif
@@ -264,9 +239,6 @@ bool InnerContext::IsGpuEnabled() const {
 }
 
 bool InnerContext::IsNpuEnabled() const {
-#ifdef SUPPORT_NPU
-  return IsUserSetNpu();
-#else
   return false;
 #endif
 }
